@@ -1,0 +1,32 @@
+{
+  "transmitters": [
+    {
+      "id": "TX1",
+      "capacity": 100
+    }
+  ],
+  "receivers": [
+    {
+      "id": "RX1",
+      "priority": "HIGH",
+      "max_receive": 80
+    },
+    {
+      "id": "RX2",
+      "priority": "MEDIUM",
+      "max_receive": 50
+    }
+  ],
+  "links": [
+    {
+      "tx_id": "TX1",
+      "rx_id": "RX1",
+      "efficiency": 0.8
+    },
+    {
+      "tx_id": "TX1",
+      "rx_id": "RX2",
+      "efficiency": 0.6
+    }
+  ]
+}
