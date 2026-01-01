@@ -1,11 +1,16 @@
 import requests
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 from .utils_topology import init_from_json
 
 BASE_URL = "http://127.0.0.1:8000"
 TOPOLOGY_FILE = "topology_basic.json"
 N_RUNS = 20
+FIGURES_DIR = "results/figures"
+
+# Ensure figures directory exists
+os.makedirs(FIGURES_DIR, exist_ok=True)
 
 
 def jains_fairness(values):
@@ -85,12 +90,6 @@ def main():
                 print("Demands:", demands)
 
             # Choose which policy to test here:
-            # Using 'step_fair' as it was uncommented in original file,
-            # though original had both and 'step_fair' was the active one.
-            # I will stick to 'step_fair' as default or whatever was active.
-            # The original code had:
-            # r_step = requests.post(f"{BASE_URL}/step_dynamic", json=demands) (commented out)
-            # r_step = requests.post(f"{BASE_URL}/step_fair", json=demands) (active)
             r_step = requests.post(f"{BASE_URL}/step_fair", json=demands)
             resp = r_step.json()
 
@@ -173,6 +172,8 @@ def main():
         plt.title("RX1: Demand vs Received (Representative Run)")
         plt.legend()
         plt.grid(True)
+        plt.savefig(os.path.join(FIGURES_DIR, "rx1_demand_vs_received.png"), dpi=300)
+        print("Saved rx1_demand_vs_received.png")
 
         # b) RX2: demand vs received
         plt.figure()
@@ -183,6 +184,8 @@ def main():
         plt.title("RX2: Demand vs Received (Representative Run)")
         plt.legend()
         plt.grid(True)
+        plt.savefig(os.path.join(FIGURES_DIR, "rx2_demand_vs_received.png"), dpi=300)
+        print("Saved rx2_demand_vs_received.png")
 
         # c) Total unmet demand over time
         plt.figure()
@@ -191,8 +194,8 @@ def main():
         plt.ylabel("Unmet demand")
         plt.title("Total Unmet Demand vs Time (Representative Run)")
         plt.grid(True)
-
-        plt.show()
+        plt.savefig(os.path.join(FIGURES_DIR, "total_unmet_demand_timeseries.png"), dpi=300)
+        print("Saved total_unmet_demand_timeseries.png")
 
 
 if __name__ == "__main__":

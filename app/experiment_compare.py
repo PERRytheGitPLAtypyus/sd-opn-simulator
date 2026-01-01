@@ -1,11 +1,16 @@
 import requests
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 from .utils_topology import init_from_json
 
 BASE_URL = "http://127.0.0.1:8000"
 TOPOLOGY_FILE = "topology_basic.json"
 N_RUNS = 20
+FIGURES_DIR = "results/figures"
+
+# Ensure figures directory exists
+os.makedirs(FIGURES_DIR, exist_ok=True)
 
 
 def jains_fairness(values):
@@ -122,6 +127,8 @@ def main():
     plt.ylabel("Average delivered power")
     plt.title(f"Average Delivered Power per Policy\n(Mean of {N_RUNS} Runs)")
     plt.grid(axis="y")
+    plt.savefig(os.path.join(FIGURES_DIR, "avg_delivered_power_per_policy.png"), dpi=300)
+    print("Saved avg_delivered_power_per_policy.png")
 
     # 2) Avg unmet
     plt.figure()
@@ -130,6 +137,8 @@ def main():
     plt.ylabel("Average unmet demand")
     plt.title(f"Average Unmet Demand per Policy\n(Mean of {N_RUNS} Runs)")
     plt.grid(axis="y")
+    plt.savefig(os.path.join(FIGURES_DIR, "avg_unmet_demand_per_policy.png"), dpi=300)
+    print("Saved avg_unmet_demand_per_policy.png")
 
     # 3) Fairness
     plt.figure()
@@ -139,8 +148,8 @@ def main():
     plt.ylabel("Jain's fairness index")
     plt.title(f"Fairness Comparison per Policy\n(Mean of {N_RUNS} Runs)")
     plt.grid(axis="y")
-
-    plt.show()
+    plt.savefig(os.path.join(FIGURES_DIR, "fairness_per_policy.png"), dpi=300)
+    print("Saved fairness_per_policy.png")
 
 
 if __name__ == "__main__":
